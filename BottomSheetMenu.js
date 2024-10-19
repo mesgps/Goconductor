@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, Image } from 'react-native';
+// Importa el ícono del carro
+import carIcon from './assets/migo.png'; // Asegúrate de que la ruta sea correcta
 
 const BottomSheetMenu = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,17 +24,30 @@ const BottomSheetMenu = () => {
     }
   };
 
+  // Lista de carros en ubicaciones ficticias
+  const cars = [
+    { id: 1, name: 'Carro 1', location: 'Ubicación A' },
+    { id: 2, name: 'Carro 2', location: 'Ubicación B' },
+    { id: 3, name: 'Carro 3', location: 'Ubicación C' },
+  ];
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={toggleBottomSheet}>
-        <Text style={styles.buttonText}>Vehículos</Text>
+        <Text style={styles.buttonText}>Menú</Text>
       </TouchableOpacity>
 
       {isVisible && (
         <View style={styles.overlay}>
           <Animated.View style={[styles.bottomSheet, { transform: [{ translateY }] }]}>
-            <Text style={styles.sheetTitle}>Menú de Vehículos</Text>
-            <Text style={styles.sheetContent}>Contenido del menú aquí...</Text>
+            <Text style={styles.sheetTitle}>Opciones del Menú</Text>
+            {/* Agregar marcadores con el ícono de carro y la lista de carros */}
+            {cars.map(car => (
+              <View key={car.id} style={styles.markerContainer}>
+                <Image source={carIcon} style={styles.markerIcon} />
+                <Text style={styles.sheetContent}>{car.name} - {car.location}</Text>
+              </View>
+            ))}
           </Animated.View>
         </View>
       )}
@@ -84,6 +99,16 @@ const styles = StyleSheet.create({
   sheetContent: {
     marginTop: 10,
     fontSize: 16,
+  },
+  markerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  markerIcon: {
+    width: 20, // Ajusta el tamaño según sea necesario
+    height: 20,
+    marginRight: 10,
   },
 });
 
